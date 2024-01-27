@@ -4,13 +4,15 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start:dev": "npx nodemon"
+    "start:dev": "npx ts-node -r dotenv/config ./src/index.ts",
+    "watch:dev": "npx nodemon"
   },
   "devDependencies": {
     "@eslint/create-config": "^0.4.6",
     "@types/node": "^20.11.7",
     "@typescript-eslint/eslint-plugin": "^6.19.1",
     "@typescript-eslint/parser": "^6.19.1",
+    "dotenv": "^16.4.1",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
@@ -18,5 +20,9 @@
     "prettier": "^3.2.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "openai": "^4.26.0",
+    "simple-git": "^3.22.0"
   }
 }
