@@ -52,7 +52,7 @@ export class GPT {
   private async getGptResponse(messages: ChatCompletionMessageParam[]) {
     console.debug(
       '[getGptResponse]',
-      messages.map((message) => JSON.stringify(message, null, '  ')),
+      messages.map((message) => message.role),
     );
     this.messages.push(...messages);
 
@@ -67,7 +67,6 @@ export class GPT {
     this.messages.push(chatCompletion.choices[0].message);
     this.usedTokens += chatCompletion.usage?.total_tokens ?? 0;
 
-    console.debug('[getGptResponse] chatCompletion:', JSON.stringify(chatCompletion.choices[0].message, null, '  '));
     console.debug('[getGptResponse] usedTokens:', this.usedTokens);
 
     return chatCompletion.choices[0].message;
@@ -77,6 +76,7 @@ export class GPT {
     let response: string;
     const functionName = toolCall.function.name;
     const argumentsString = toolCall.function.arguments;
+    let args;
 
     console.debug(`[handleFunctionCall][${functionName}]`, argumentsString);
 
@@ -101,9 +101,12 @@ export class GPT {
           );
           break;
         case FunctionName.createFile:
-          const args = this.getArgumentsObject<FunctionName.createFile>(argumentsString);
+          args = this.getArgumentsObject<FunctionName.createFile>(argumentsString);
           this.fileSystem.createFile(args.fileName, args.content);
           response = 'Successfully created file';
+          break;
+        case FunctionName.getGitDiff:
+          response = await this.fileSystem.getGitDiff();
           break;
         case FunctionName.print:
           console.info(this.getArgumentsObject<FunctionName.print>(argumentsString).message);

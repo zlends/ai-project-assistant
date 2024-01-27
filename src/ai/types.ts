@@ -1,11 +1,11 @@
 import { FunctionName } from './enums';
 
 export type FunctionCallArguments = {
-  [FunctionName.list]: {};
+  [FunctionName.list]: void;
   [FunctionName.openFolder]: {
     folderName: string;
   };
-  [FunctionName.goBack]: {};
+  [FunctionName.goBack]: void;
   [FunctionName.readFile]: {
     fileName: string;
   };
@@ -13,6 +13,7 @@ export type FunctionCallArguments = {
     fileName: string;
     content: string;
   };
+  [FunctionName.getGitDiff]: void;
   [FunctionName.print]: {
     message: string;
   };

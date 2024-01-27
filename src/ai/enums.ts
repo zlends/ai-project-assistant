@@ -4,5 +4,6 @@ export enum FunctionName {
   goBack = 'goBack',
   readFile = 'readFile',
   createFile = 'createFile',
+  getGitDiff = 'getGitDiff',
   print = 'print',
 }

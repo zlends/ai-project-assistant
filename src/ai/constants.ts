@@ -60,6 +60,10 @@ const GPT_FUNCTION_DEFINITIONS: FunctionDefinition[] = [
     },
   },
   {
+    name: FunctionName.getGitDiff,
+    description: 'Get git diff of the current folder',
+  },
+  {
     name: FunctionName.print,
     description:
       'Show some information to the user. Should be used when you need to call some another function but you want to show some information to the user in parallel. Should not be used for the final response.',
