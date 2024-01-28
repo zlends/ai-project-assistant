@@ -8,26 +8,17 @@ export const SEED = 123;
 
 const GPT_FUNCTION_DEFINITIONS: FunctionDefinition[] = [
   {
-    name: FunctionName.list,
-    description: 'List of folders/files in the currently opened folder',
-  },
-  {
-    name: FunctionName.openFolder,
-    description: 'Open a folder. It returns array of folders/files in the opened folder',
+    name: FunctionName.readFolder,
+    description: 'Get a list of files/folders in the provided folder',
     parameters: {
       type: 'object',
       properties: {
         folderName: {
           type: 'string',
-          description: 'Name of the folder to open',
+          description: 'Name of the folder to read, relative to the root directory',
         },
       },
     },
-  },
-  {
-    name: FunctionName.goBack,
-    description:
-      'Go back to the previous folder. It returns array of folders/files in the opened folder',
   },
   {
     name: FunctionName.readFile,

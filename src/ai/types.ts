@@ -1,11 +1,9 @@
 import { FunctionName } from './enums';
 
 export type FunctionCallArguments = {
-  [FunctionName.list]: void;
-  [FunctionName.openFolder]: {
+  [FunctionName.readFolder]: {
     folderName: string;
   };
-  [FunctionName.goBack]: void;
   [FunctionName.readFile]: {
     fileName: string;
   };

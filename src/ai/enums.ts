@@ -1,7 +1,5 @@
 export enum FunctionName {
-  list = 'list',
-  openFolder = 'openFolder',
-  goBack = 'goBack',
+  readFolder = 'readFolder',
   readFile = 'readFile',
   createFile = 'createFile',
   getGitDiff = 'getGitDiff',

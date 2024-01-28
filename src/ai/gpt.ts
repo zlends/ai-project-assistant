@@ -18,7 +18,7 @@ export class GPT {
     'Be laconic and precise in your human-like answers.',
     'You can gather as much information as you want over project if you need more context for resolving tasks.',
     `Root directory name: ${this.fileSystem.getRootDirectoryName()}`,
-    `Root project structure:\n${this.fileSystem.getList().join('\n')}`,
+    `Root project structure:\n${this.fileSystem.readFolder()}`,
   ];
 
   private openai: OpenAI = new OpenAI({
@@ -32,6 +32,7 @@ export class GPT {
   private usedTokens = 0;
 
   async ask(message: string) {
+    console.debug('[ask]', message);
     let response = await this.getGptResponse([generateUserMessage(message)]);
 
     while (response.tool_calls != null) {
@@ -82,18 +83,12 @@ export class GPT {
 
     try {
       switch (functionName) {
-        case FunctionName.list:
-          response = this.fileSystem.getList().join('\n');
-          break;
-        case FunctionName.openFolder:
+        case FunctionName.readFolder:
           response = this.fileSystem
-            .openFolder(
-              this.getArgumentsObject<FunctionName.openFolder>(argumentsString).folderName,
+            .readFolder(
+              this.getArgumentsObject<FunctionName.readFolder>(argumentsString).folderName,
             )
             .join('\n');
-          break;
-        case FunctionName.goBack:
-          response = this.fileSystem.goBack().join('\n');
           break;
         case FunctionName.readFile:
           response = this.fileSystem.readFile(
@@ -117,6 +112,7 @@ export class GPT {
       }
     } catch (error: any) {
       response = error.message;
+      console.error(error);
     }
 
     return generateToolMessage(toolCall.id, response);

@@ -1,25 +1,30 @@
 # AI Project Assistant
 
-This AI Project Assistant is designed to help manage and navigate through project files efficiently. It can perform a variety of tasks to streamline project management and development processes.
+The AI Project Assistant is a sophisticated tool designed to assist with navigating, managing, and interacting with project files. It leverages AI capabilities to perform a variety of tasks, making project management more efficient and intuitive.
 
 ## Features
 
-- **Navigate through project files**: Easily move between folders and files within the project structure.
-- **Read and modify files**: Open and read the contents of files, as well as make changes and commit those changes back to the project.
-- **File management**: Create new files within the project.
-- **Information display**: Show relevant information to the user while performing tasks.
+- **File Navigation**: Navigate through project files and folders, allowing users to quickly find the information they need.
+- **File Operations**: Read, create, and modify files within the project, streamlining the process of managing project content.
+- **Git Integration**: Perform Git operations such as generating diffs, helping users to track changes and manage versions with ease.
+- **AI-Powered Interactions**: Utilize AI to ask questions about the project, receive guidance on project structure, and automate routine tasks.
 
-## How to Use
+## Core Components
 
-The assistant operates through a set of predefined functions that can be invoked to perform various tasks. These functions include navigating through folders, reading and modifying files, creating new files, and displaying information.
+- **AI Module**: Handles AI interactions, including processing user queries and executing AI-driven tasks.
+- **File System Module**: Manages file operations such as reading, creating, and modifying files, as well as navigating the project's directory structure.
+- **Utilities**: A set of utility functions to support AI and file system operations, including message generation and handling tool calls.
 
-For detailed instructions on how to use each function, refer to the documentation provided with the assistant.
+## Technologies
 
-## Limitations
-
-- The assistant operates within the scope of the project files and cannot access external resources.
-- Real-time collaboration with other team members is not supported.
+- **TypeScript**: The project is developed using TypeScript, offering type safety and enhancing development experience.
+- **Node.js**: Utilizes Node.js for backend operations, including file system management and executing Git commands.
+- **OpenAI**: Integrates with OpenAI's GPT models for processing and responding to user queries.
 
 ## Getting Started
 
-To start using the AI Project Assistant, simply invoke the relevant functions as needed to manage your project files efficiently.
+To get started with the AI Project Assistant, ensure you have Node.js installed on your system. Clone the project, install dependencies using `yarn` or `npm`, and start exploring the capabilities of the AI Project Assistant.
+
+---
+
+This README provides a high-level overview of the project's functionality and components. Adjustments can be made based on further project development or specific details you wish to include.
