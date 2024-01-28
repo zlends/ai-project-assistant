@@ -49,6 +49,6 @@ export class FileSystem {
   }
 
   public async getGitDiff() {
-    return simpleGit().diff([':!*.lock']);
+    return simpleGit().diff(['--minimal', ':!*.lock']);
   }
 }
