@@ -1,8 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import simpleGit from 'simple-git';
 
-export class FileSystem {
+export class FileSystemController {
   public rootDirectory: string;
 
   constructor(rootDirectory = './') {
@@ -56,9 +55,5 @@ export class FileSystem {
     }
 
     fs.writeFileSync(filePath, content);
-  }
-
-  public async getGitDiff() {
-    return simpleGit().diff(['--minimal', ':!*.lock']);
   }
 }

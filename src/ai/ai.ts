@@ -7,18 +7,20 @@ import {
 } from 'openai/resources';
 import { FunctionName } from './enums';
 import { generateSystemMessage, generateToolMessage, generateUserMessage } from './utils';
-import { FileSystem } from '../fileSystem';
+import { FileSystemController } from '../fileSystemController';
 import { FunctionCallArguments } from './types';
+import { GitController } from '../gitController';
 
-export class GPT {
-  private fileSystem = new FileSystem();
+export class Ai {
+  private fileSystemController = new FileSystemController();
+  private gitController = new GitController();
 
   private context: string[] = [
     'You are Project Assistant. You have access to navigate over project files, search for a specific file, read it, make some changes, commit it.',
     'Be laconic and precise in your human-like answers.',
     'You can gather as much information as you want over project if you need more context for resolving tasks.',
-    `Root directory name: ${this.fileSystem.getRootDirectoryName()}`,
-    `Root project structure:\n${this.fileSystem.readFolder()}`,
+    `Root directory name: ${this.fileSystemController.getRootDirectoryName()}`,
+    `Root project structure:\n${this.fileSystemController.readFolder()}`,
   ];
 
   private openai: OpenAI = new OpenAI({
@@ -84,29 +86,29 @@ export class GPT {
     try {
       switch (functionName) {
         case FunctionName.readFolder:
-          response = this.fileSystem
+          response = this.fileSystemController
             .readFolder(
               this.getArgumentsObject<FunctionName.readFolder>(argumentsString).folderName,
             )
             .join('\n');
           break;
         case FunctionName.readFile:
-          response = this.fileSystem.readFile(
+          response = this.fileSystemController.readFile(
             this.getArgumentsObject<FunctionName.readFile>(argumentsString).fileName,
           );
           break;
         case FunctionName.createFolder:
           args = this.getArgumentsObject<FunctionName.createFolder>(argumentsString);
-          this.fileSystem.createFolder(args.folderName);
+          this.fileSystemController.createFolder(args.folderName);
           response = 'Successfully created folder';
           break;
         case FunctionName.createFile:
           args = this.getArgumentsObject<FunctionName.createFile>(argumentsString);
-          this.fileSystem.createFile(args.fileName, args.content);
+          this.fileSystemController.createFile(args.fileName, args.content);
           response = 'Successfully created file';
           break;
         case FunctionName.getGitDiff:
-          response = await this.fileSystem.getGitDiff();
+          response = await this.gitController.getGitDiff();
           break;
         case FunctionName.print:
           console.info(this.getArgumentsObject<FunctionName.print>(argumentsString).message);
@@ -128,4 +130,4 @@ export class GPT {
   }
 }
 
-export default new GPT();
+export default new Ai();
