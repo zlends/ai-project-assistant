@@ -97,6 +97,11 @@ export class Ai {
             this.getArgumentsObject<FunctionName.readFile>(argumentsString).fileName,
           );
           break;
+        case FunctionName.updateFile:
+          args = this.getArgumentsObject<FunctionName.updateFile>(argumentsString);
+          this.fileSystemController.updateFile(args.fileName, args.content);
+          response = 'Successfully updated file';
+          break;
         case FunctionName.createFolder:
           args = this.getArgumentsObject<FunctionName.createFolder>(argumentsString);
           this.fileSystemController.createFolder(args.folderName);

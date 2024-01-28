@@ -34,6 +34,23 @@ const GPT_FUNCTION_DEFINITIONS: FunctionDefinition[] = [
     },
   },
   {
+    name: FunctionName.updateFile,
+    description: 'Update file content',
+    parameters: {
+      type: 'object',
+      properties: {
+        fileName: {
+          type: 'string',
+          description: 'Name of the file to update',
+        },
+        content: {
+          type: 'string',
+          description: 'New content of the file',
+        },
+      },
+    },
+  },
+  {
     name: FunctionName.createFolder,
     description: 'Create a folder',
     parameters: {

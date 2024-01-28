@@ -36,6 +36,17 @@ export class FileSystemController {
     return fs.readFileSync(filePath, 'utf8');
   }
 
+  // Update file content
+  public updateFile(fileName: string, content: string) {
+    const filePath = path.resolve(this.rootDirectory, fileName);
+
+    if (!fs.existsSync(filePath)) {
+      throw new Error(`File ${fileName} does not exist`);
+    }
+
+    fs.writeFileSync(filePath, content);
+  }
+
   public createFolder(folderName: string) {
     const folderPath = path.resolve(this.rootDirectory, folderName);
 

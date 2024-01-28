@@ -7,6 +7,10 @@ export type FunctionCallArguments = {
   [FunctionName.readFile]: {
     fileName: string;
   };
+  [FunctionName.updateFile]: {
+    fileName: string;
+    content: string;
+  };
   [FunctionName.createFolder]: {
     folderName: string;
   };
