@@ -9,6 +9,9 @@ import gpt from './ai/gpt';
 // gpt
 //   .ask('Create readme file that describes your functionality based on ALL project files')
 //   .then(console.log);
+// gpt
+//   .ask('Create file src/database/test.txt with content "test"')
+//   .then(console.log);
 gpt
   .ask('Create me a commit message for current changes using Conventional Commits pattern')
   .then(console.log);

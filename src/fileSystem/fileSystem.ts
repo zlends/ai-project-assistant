@@ -37,6 +37,16 @@ export class FileSystem {
     return fs.readFileSync(filePath, 'utf8');
   }
 
+  public createFolder(folderName: string) {
+    const folderPath = path.resolve(this.rootDirectory, folderName);
+
+    if (fs.existsSync(folderPath)) {
+      throw new Error(`Folder ${folderName} already exists`);
+    }
+
+    fs.mkdirSync(folderPath);
+  }
+
   public createFile(fileName: string, content: string) {
     const filePath = path.resolve(this.rootDirectory, fileName);
 

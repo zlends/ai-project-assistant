@@ -34,6 +34,19 @@ const GPT_FUNCTION_DEFINITIONS: FunctionDefinition[] = [
     },
   },
   {
+    name: FunctionName.createFolder,
+    description: 'Create a folder',
+    parameters: {
+      type: 'object',
+      properties: {
+        folderName: {
+          type: 'string',
+          description: 'Name of the folder to create',
+        },
+      },
+    },
+  },
+  {
     name: FunctionName.createFile,
     description: 'Create a file',
     parameters: {

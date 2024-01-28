@@ -95,6 +95,11 @@ export class GPT {
             this.getArgumentsObject<FunctionName.readFile>(argumentsString).fileName,
           );
           break;
+        case FunctionName.createFolder:
+          args = this.getArgumentsObject<FunctionName.createFolder>(argumentsString);
+          this.fileSystem.createFolder(args.folderName);
+          response = 'Successfully created folder';
+          break;
         case FunctionName.createFile:
           args = this.getArgumentsObject<FunctionName.createFile>(argumentsString);
           this.fileSystem.createFile(args.fileName, args.content);
@@ -112,7 +117,7 @@ export class GPT {
       }
     } catch (error: any) {
       response = error.message;
-      console.error(error);
+      console.error('[handleFunctionCall][error]', error.message);
     }
 
     return generateToolMessage(toolCall.id, response);
