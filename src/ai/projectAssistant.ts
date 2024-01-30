@@ -1,9 +1,10 @@
 import OpenAI from 'openai';
-import { GPT_TOOLS, MODEL_NAME, SEED, TEMPERATURE } from './constants';
+import { GPT_TOOLS, model, SEED, TEMPERATURE } from './constants';
 import {
   ChatCompletionMessageParam,
   ChatCompletionMessageToolCall,
   ChatCompletionToolMessageParam,
+  CompletionUsage,
 } from 'openai/resources';
 import { FunctionName } from './enums';
 import { generateSystemMessage, generateToolMessage, generateUserMessage } from './utils';
@@ -19,7 +20,10 @@ export class ProjectAssistant {
   private gitController: Git;
 
   private context: string[];
-  private usedTokens = 0;
+  private usedTokens = {
+    input: 0,
+    output: 0,
+  };
   private readonly messages: ChatCompletionMessageParam[];
 
   constructor(pathToProject: string) {
@@ -30,6 +34,8 @@ export class ProjectAssistant {
       'You are Project Assistant. You have access to navigate over project files, search for a specific file, read it, make some changes, commit it.',
       'Be laconic and precise in your human-like answers.',
       'You can gather as much information as you want over project if you need more context for resolving tasks.',
+      // ToDo: add this when discussion will be implemented
+      // 'When you are asked to implement some functionality, you can discuss and confirm steps and solutions with the user.',
       `Root directory name: ${this.fileSystemController.getRootDirectoryName()}`,
       `Root project structure:\n${this.fileSystemController.readFolder()}`,
     ];
@@ -66,15 +72,14 @@ export class ProjectAssistant {
     const chatCompletion = await this.openai.chat.completions.create({
       tools: GPT_TOOLS,
       messages: this.messages,
-      model: MODEL_NAME,
+      model: model.name,
       temperature: TEMPERATURE,
       seed: SEED,
     });
 
     this.messages.push(chatCompletion.choices[0].message);
-    this.usedTokens += chatCompletion.usage?.total_tokens ?? 0;
 
-    console.debug('[getGptResponse] usedTokens:', this.usedTokens);
+    this.processUsedTokens(chatCompletion.usage);
 
     return chatCompletion.choices[0].message;
   }
@@ -99,12 +104,18 @@ export class ProjectAssistant {
         case FunctionName.readFile:
           response = this.fileSystemController.readFile(
             this.getArgumentsObject<FunctionName.readFile>(argumentsString).fileName,
+            this.getArgumentsObject<FunctionName.readFile>(argumentsString).isWithRowNumbers,
           );
           break;
         case FunctionName.replaceFile:
           args = this.getArgumentsObject<FunctionName.replaceFile>(argumentsString);
-          this.fileSystemController.updateFile(args.fileName, args.content);
+          this.fileSystemController.replaceFile(args.fileName, args.content);
           response = 'Successfully replaced file';
+          break;
+        case FunctionName.updateFile:
+          args = this.getArgumentsObject<FunctionName.updateFile>(argumentsString);
+          this.fileSystemController.updateFile(args.fileName, args.changes);
+          response = 'Successfully updated file';
           break;
         case FunctionName.createFolder:
           args = this.getArgumentsObject<FunctionName.createFolder>(argumentsString);
@@ -132,6 +143,21 @@ export class ProjectAssistant {
     }
 
     return generateToolMessage(toolCall.id, response);
+  }
+
+  private processUsedTokens(usage?: CompletionUsage) {
+    this.usedTokens.input += usage?.prompt_tokens ?? 0;
+    this.usedTokens.output += usage?.completion_tokens ?? 0;
+
+    const price =
+      (this.usedTokens.input / 1000) * model.pricing.input +
+      (this.usedTokens.output / 1000) * model.pricing.output;
+
+    console.debug(
+      '[getGptResponse] price:',
+      `$${price.toFixed(2)}`,
+      `(tokens: ${this.usedTokens.input}/${this.usedTokens.output})`,
+    );
   }
 
   private getArgumentsObject<FN extends FunctionName>(functionArguments: string) {

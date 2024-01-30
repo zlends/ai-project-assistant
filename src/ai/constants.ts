@@ -1,9 +1,40 @@
 import { ChatCompletionTool, FunctionDefinition } from 'openai/resources';
-import { FunctionName } from './enums';
+import { EChangeType, FunctionName } from './enums';
 
-// export const MODEL_NAME = 'gpt-3.5-turbo';
-export const MODEL_NAME = 'gpt-4-turbo-preview';
-export const TEMPERATURE = 0.1;
+export const models = {
+  gpt3_5_turbo: {
+    name: 'gpt-3.5-turbo-1106',
+    pricing: {
+      input: 0.001, // $ per 1K tokens
+      output: 0.002, // $ per 1K tokens
+    },
+  },
+  gpt4_turbo: {
+    name: 'gpt-4-0125-preview',
+    pricing: {
+      input: 0.01, // $ per 1K tokens
+      output: 0.03, // $ per 1K tokens
+    },
+  },
+  gpt4: {
+    name: 'gpt-4',
+    pricing: {
+      input: 0.03, // $ per 1K tokens
+      output: 0.06, // $ per 1K tokens
+    },
+  },
+  gpt4_32k: {
+    name: 'gpt-4-32k',
+    pricing: {
+      input: 0.06, // $ per 1K tokens
+      output: 0.12, // $ per 1K tokens
+    },
+  },
+};
+
+export const model = models.gpt4_turbo;
+
+export const TEMPERATURE = 0;
 export const SEED = 123;
 
 const readFolder: FunctionDefinition = {
@@ -30,7 +61,13 @@ const readFile: FunctionDefinition = {
         type: 'string',
         description: 'Name of the file to read',
       },
+      isWithRowNumbers: {
+        type: 'boolean',
+        description:
+          'Should return file content with row numbers at the beginning. Use it when you need to update the file',
+      },
     },
+    required: ['fileName'],
   },
 };
 
@@ -47,6 +84,45 @@ const replaceFile: FunctionDefinition = {
       content: {
         type: 'string',
         description: 'New content of the file',
+      },
+    },
+  },
+};
+
+const updateFile: FunctionDefinition = {
+  name: FunctionName.updateFile,
+  description: 'Update file content',
+  parameters: {
+    type: 'object',
+    properties: {
+      fileName: {
+        type: 'string',
+        description: 'Name of the file to update',
+      },
+      changes: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            type: {
+              type: 'string',
+              description: 'Type of the change',
+              enum: [EChangeType.add, EChangeType.remove, EChangeType.replace],
+            },
+            startRow: {
+              type: 'number',
+              description: 'Start row of the change',
+            },
+            endRow: {
+              type: 'number',
+              description: 'End row of the change, will be equal to `startRow` for `add` type',
+            },
+            content: {
+              type: 'string',
+              description: 'New content of the change, is not required for `remove` type',
+            },
+          },
+        },
       },
     },
   },
@@ -108,6 +184,7 @@ const GPT_FUNCTION_DEFINITIONS: FunctionDefinition[] = [
   readFolder,
   readFile,
   replaceFile,
+  updateFile,
   createFolder,
   createFile,
   getGitDiff,

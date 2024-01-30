@@ -16,10 +16,16 @@ const projectAssistant = new ProjectAssistant(projectPath);
 //   .ask('Create readme file that describes your functionality based on ALL project files')
 //   .then(console.log);
 projectAssistant
-  .ask('Create me a commit message for current changes using Conventional Commits pattern.')
+  .ask(
+    'Create me a commit message for current changes using Conventional Commits pattern. Note, that `updateFile` is the main feature of this commit.',
+  )
   .then(console.log);
 
-// gpt.ask('Return me changes that removing `createFile` method from fileSystem controller. It should be array of objects').then(console.log);
+// projectAssistant.ask('Remove `EChangeType` enum in src/ai/enums.ts').then(console.log);
+// projectAssistant.ask('Remove `createFile` method from fileSystem controller.').then(console.log);
+// projectAssistant
+//   .ask('Add error handling in `replaceFile` method of src/controllers/fileSystem.ts')
+//   .then(console.log);
 
 // const fileSystem = new FileSystem();
 // console.log(fileSystem.getRootDirectoryName());
