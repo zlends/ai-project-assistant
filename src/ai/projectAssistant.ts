@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import { GPT_TOOLS, model, SEED, TEMPERATURE } from './constants';
+import { model, SEED, TEMPERATURE } from './constants';
 import {
   ChatCompletionMessageParam,
   ChatCompletionMessageToolCall,
@@ -10,6 +10,7 @@ import { FunctionName } from './enums';
 import { generateSystemMessage, generateToolMessage, generateUserMessage } from './utils';
 import { FunctionCallArguments } from './types';
 import { FileSystem, Git } from '../controllers';
+import { GPT_TOOLS } from './tools';
 
 export class ProjectAssistant {
   private openai: OpenAI = new OpenAI({
@@ -104,27 +105,37 @@ export class ProjectAssistant {
             )
             .join('\n');
           break;
+        case FunctionName.createFolder:
+          args = this.getArgumentsObject<FunctionName.createFolder>(argumentsString);
+          this.fileSystemController.createFolder(args.folderName);
+          response = 'Successfully created folder';
+          break;
         case FunctionName.readFile:
           response = this.fileSystemController.readFile(
             this.getArgumentsObject<FunctionName.readFile>(argumentsString).fileName,
             this.getArgumentsObject<FunctionName.readFile>(argumentsString).isWithRowNumbers,
           );
           break;
-        case FunctionName.editFile:
-          args = this.getArgumentsObject<FunctionName.editFile>(argumentsString);
-          // ToDo: return new errors after editing file if there are any
-          this.fileSystemController.updateFile(args.fileName, args.changes);
-          response = 'Successfully updated file';
-          break;
-        case FunctionName.createFolder:
-          args = this.getArgumentsObject<FunctionName.createFolder>(argumentsString);
-          this.fileSystemController.createFolder(args.folderName);
-          response = 'Successfully created folder';
-          break;
         case FunctionName.createFile:
           args = this.getArgumentsObject<FunctionName.createFile>(argumentsString);
           this.fileSystemController.createFile(args.fileName, args.content);
           response = 'Successfully created file';
+          break;
+        case FunctionName.editFile:
+          args = this.getArgumentsObject<FunctionName.editFile>(argumentsString);
+          // ToDo: return new errors after editing file if there are any
+          this.fileSystemController.editFile(args.fileName, args.changes);
+          response = 'Successfully updated file';
+          break;
+        case FunctionName.rename:
+          args = this.getArgumentsObject<FunctionName.rename>(argumentsString);
+          this.fileSystemController.rename(args.currentPath, args.newPath);
+          response = 'Successfully renamed';
+          break;
+        case FunctionName.remove:
+          args = this.getArgumentsObject<FunctionName.remove>(argumentsString);
+          this.fileSystemController.remove(args.name);
+          response = 'Successfully removed';
           break;
         case FunctionName.getGitDiff:
           response = await this.gitController.getGitDiff();

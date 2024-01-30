@@ -26,6 +26,16 @@ export class FileSystem {
     return fs.readdirSync(folderPath);
   }
 
+  public createFolder(folderName: string) {
+    const folderPath = path.resolve(this.rootDirectory, folderName);
+
+    if (fs.existsSync(folderPath)) {
+      throw new Error(`Folder ${folderName} already exists`);
+    }
+
+    fs.mkdirSync(folderPath);
+  }
+
   // Read file content. It returns file content as a string, with number of rows at the beginning
   public readFile(fileName: string, isWithRowNumbers = false) {
     const filePath = path.resolve(this.rootDirectory, fileName);
@@ -49,8 +59,19 @@ export class FileSystem {
     return fileContentWithRowNumbers.join('\n');
   }
 
+  public createFile(fileName: string, content: string) {
+    const filePath = path.resolve(this.rootDirectory, fileName);
+
+    // Check if the file exists
+    if (fs.existsSync(filePath)) {
+      throw new Error(`File ${fileName} already exists`);
+    }
+
+    fs.writeFileSync(filePath, content);
+  }
+
   // Update file content
-  public updateFile(fileName: string, changes: IChange[]) {
+  public editFile(fileName: string, changes: IChange[]) {
     const filePath = path.resolve(this.rootDirectory, fileName);
 
     if (!fs.existsSync(filePath)) {
@@ -82,24 +103,28 @@ export class FileSystem {
     fs.writeFileSync(filePath, fileContentLines.join('\n'));
   }
 
-  public createFolder(folderName: string) {
-    const folderPath = path.resolve(this.rootDirectory, folderName);
+  public rename(currentPath: string, newPath: string) {
+    const fileOrFolderPath = path.resolve(this.rootDirectory, currentPath);
+    const newFileOrFolderPath = path.resolve(this.rootDirectory, newPath);
 
-    if (fs.existsSync(folderPath)) {
-      throw new Error(`Folder ${folderName} already exists`);
+    if (!fs.existsSync(fileOrFolderPath)) {
+      throw new Error(`File or folder ${currentPath} does not exist`);
     }
 
-    fs.mkdirSync(folderPath);
+    if (fs.existsSync(newFileOrFolderPath)) {
+      throw new Error(`File or folder ${newPath} already exists`);
+    }
+
+    fs.renameSync(fileOrFolderPath, newFileOrFolderPath);
   }
 
-  public createFile(fileName: string, content: string) {
-    const filePath = path.resolve(this.rootDirectory, fileName);
+  public remove(name: string) {
+    const fileOrFolderPath = path.resolve(this.rootDirectory, name);
 
-    // Check if the file exists
-    if (fs.existsSync(filePath)) {
-      throw new Error(`File ${fileName} already exists`);
+    if (!fs.existsSync(fileOrFolderPath)) {
+      throw new Error(`File or folder ${name} does not exist`);
     }
 
-    fs.writeFileSync(filePath, content);
+    fs.rmSync(fileOrFolderPath, { recursive: true, force: true });
   }
 }
