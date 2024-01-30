@@ -8,6 +8,9 @@ export class GitController {
   }
 
   public async getGitDiff() {
-    return simpleGit().diff(['--minimal', ':!*.lock']);
+    const stagedChanges = await this.simpleGit.diff(['--staged', '--minimal', ':!*.lock']);
+    const unStagedChanges = await this.simpleGit.diff(['--minimal', ':!*.lock']);
+
+    return `${stagedChanges}\n\n${unStagedChanges}`;
   }
 }

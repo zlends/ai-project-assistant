@@ -11,27 +11,32 @@ import { FileSystemController } from '../fileSystemController';
 import { FunctionCallArguments } from './types';
 import { GitController } from '../gitController';
 
-export class Ai {
-  private fileSystemController = new FileSystemController();
-  private gitController = new GitController();
-
-  private context: string[] = [
-    'You are Project Assistant. You have access to navigate over project files, search for a specific file, read it, make some changes, commit it.',
-    'Be laconic and precise in your human-like answers.',
-    'You can gather as much information as you want over project if you need more context for resolving tasks.',
-    `Root directory name: ${this.fileSystemController.getRootDirectoryName()}`,
-    `Root project structure:\n${this.fileSystemController.readFolder()}`,
-  ];
-
+export class ProjectAssistant {
   private openai: OpenAI = new OpenAI({
     apiKey: process.env['OPENAI_API_KEY'], // This is the default and can be omitted
   });
 
-  private messages: ChatCompletionMessageParam[] = [
-    generateSystemMessage(this.context.join('\n\n')),
-  ];
+  private fileSystemController: FileSystemController;
+  private gitController: GitController;
 
+  private context: string[];
   private usedTokens = 0;
+  private readonly messages: ChatCompletionMessageParam[];
+
+  constructor(pathToProject: string) {
+    this.fileSystemController = new FileSystemController(pathToProject);
+    this.gitController = new GitController(pathToProject);
+
+    this.context = [
+      'You are Project Assistant. You have access to navigate over project files, search for a specific file, read it, make some changes, commit it.',
+      'Be laconic and precise in your human-like answers.',
+      'You can gather as much information as you want over project if you need more context for resolving tasks.',
+      `Root directory name: ${this.fileSystemController.getRootDirectoryName()}`,
+      `Root project structure:\n${this.fileSystemController.readFolder()}`,
+    ];
+
+    this.messages = [generateSystemMessage(this.context.join('\n\n'))];
+  }
 
   async ask(message: string) {
     console.debug('[ask]', message);
@@ -134,5 +139,3 @@ export class Ai {
     return JSON.parse(functionArguments) as FunctionCallArguments[FN];
   }
 }
-
-export default new Ai();

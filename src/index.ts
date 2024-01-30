@@ -1,5 +1,11 @@
-import gpt from './ai/ai';
+import { ProjectAssistant } from './ai';
+// import { GitController } from './gitController';
 // import { FileSystem } from './fileSystem';
+
+const projectPath = './';
+// const projectPath = '/Users/dtabaka/projects/forbytes/guesty/mobile-app-v3';
+
+const projectAssistant = new ProjectAssistant(projectPath);
 
 // gpt.ask('What can you tell about file constants.ts that present in ai folder?').then(console.log);
 // gpt.ask('Open src folder').then(console.log);
@@ -9,20 +15,15 @@ import gpt from './ai/ai';
 // gpt
 //   .ask('Create readme file that describes your functionality based on ALL project files')
 //   .then(console.log);
-// gpt
-//   .ask(
-//     'Please, read ai.ts and fileSystemController.ts and suggest how to add `updateFile` method? What OpenAI tool should I add, what parameters? The goal is that you need to you tool that will help you to update file content, remove some lines, add some lines, change some lines.',
-//   )
-//   .then(console.log);
-gpt
-  .ask('Create me a commit message for current changes using Conventional Commits pattern')
+projectAssistant
+  .ask('Create me a commit message for current changes using Conventional Commits pattern.')
   .then(console.log);
-// gpt
-//   .ask(
-//     'Create git controller, take `fileSystem` as template for it. Grab all git related methods from `fileSystem`',
-//   )
-//   .then(console.log);
+
+// gpt.ask('Return me changes that removing `createFile` method from fileSystem controller. It should be array of objects').then(console.log);
 
 // const fileSystem = new FileSystem();
 // console.log(fileSystem.getRootDirectoryName());
 // fileSystem.getGitDiff().then(console.log);
+
+// const gitController = new GitController(projectPath);
+// gitController.getGitDiff().then(console.log);
