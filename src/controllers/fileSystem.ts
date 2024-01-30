@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import { EChangeType } from '../ai/enums';
-import { IChange } from '../ai/types';
+import { EChangeType } from '../projectAssistant/enums';
+import { IChange } from '../projectAssistant/types';
 
 export class FileSystem {
   public rootDirectory: string;

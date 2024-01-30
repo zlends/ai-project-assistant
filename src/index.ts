@@ -1,4 +1,4 @@
-import { ProjectAssistant } from './ai';
+import { ProjectAssistant } from './projectAssistant';
 // import { FileSystem } from './controllers';
 // import { GitController } from './gitController';
 
@@ -15,13 +15,17 @@ const projectAssistant = new ProjectAssistant(projectPath);
 // gpt
 //   .ask('Create readme file that describes your functionality based on ALL project files')
 //   .then(console.log);
-projectAssistant
-  .ask(
-    'Create me a commit message for current changes using Conventional Commits pattern. Note that adding rename/remove functionality is main feature of this commit along with some other changes.',
-  )
-  .then(console.log);
+// projectAssistant
+//   .ask(
+//     'Create me a commit message for current changes using Conventional Commits pattern. Note that adding rename/remove functionality is main feature of this commit along with some other changes.',
+//   )
+//   .then(console.log);
 
-// projectAssistant.ask('Remove `EChangeType` enum in src/ai/enums.ts').then(console.log);
+// projectAssistant
+//   .ask('Write test for createFolder method of fileSystem controller')
+//   .then(console.log);
+
+projectAssistant.ask('Add new `exec` tool that runs a command in terminal in projectAssistant.ts').then(console.log);
 // projectAssistant.ask('Remove `createFile` method from fileSystem controller.').then(console.log);
 // projectAssistant
 //   .ask(
