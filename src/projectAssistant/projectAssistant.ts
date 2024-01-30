@@ -156,7 +156,7 @@ export class ProjectAssistant {
       }
     } catch (error: any) {
       response = error.message || 'Unknown error';
-      console.error('[handleFunctionCall][error]', error.message);
+      console.error('[handleFunctionCall][error]', response);
     }
 
     return generateToolMessage(toolCall.id, response);

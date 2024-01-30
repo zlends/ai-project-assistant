@@ -6,7 +6,7 @@
   "scripts": {
     "start:dev": "npx ts-node -r dotenv/config ./src/index.ts",
     "watch:dev": "npx nodemon",
-    "test": "jest"
+    "test": "jest --noStackTrace"
   },
   "devDependencies": {
     "@eslint/create-config": "^0.4.6",

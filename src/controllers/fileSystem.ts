@@ -151,14 +151,13 @@ export class FileSystem {
     return new Promise((resolve, reject) => {
       exec(command, (error: any, stdout: any, stderr: any) => {
         if (error) {
-          console.debug(`error: ${error.message}`);
+          // console.debug(`error: ${error.message}`);
           reject(error);
-        } else if (stderr) {
-          console.debug(`stderr: ${stderr}`);
-          reject(new Error(stderr));
         }
-        console.debug(`stdout: ${stdout}`);
-        resolve(stdout);
+
+        // console.debug(`stderr: "${stderr}"`);
+        // console.debug(`stdout: "${stdout}"`);
+        resolve(stdout || stderr);
       });
     });
   }
