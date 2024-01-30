@@ -21,44 +21,16 @@ const projectAssistant = new ProjectAssistant(projectPath);
 //   )
 //   .then(console.log);
 
-// projectAssistant
-//   .ask('Write test for createFolder method of fileSystem controller')
-//   .then(console.log);
-
-projectAssistant.ask('Add new `exec` tool that runs a command in terminal in projectAssistant.ts').then(console.log);
-// projectAssistant.ask('Remove `createFile` method from fileSystem controller.').then(console.log);
-// projectAssistant
-//   .ask(
-//     'Add check for folder existence after `filePath` constant in `createFolder` method of src/controllers/fileSystem.ts',
-//   )
-//   .then(console.log);
-// projectAssistant
-//   .ask(
-//     // 'Add missing check for folder existence in src/controllers/fileSystem.ts',
-//     'Add check for folder existence in `createFolder` method of src/controllers/fileSystem.ts',
-//     // 'Add check for folder existence in `createFolder` method of src/controllers/fileSystem.ts',
-//     // 'Add console.debug before folderPath in `createFolder` method of src/controllers/fileSystem.ts',
-//     // 'Add console.debug just after folderPath in `createFolder` method of src/controllers/fileSystem.ts',
-//   )
-//   .then(console.log);
-
-// projectAssistant
-//   .ask('Add console.debug of filePath in `createFile` method of src/controllers/fileSystem.ts')
-//   .then(console.log);
-// projectAssistant
-//   .ask(
-//     'Remove console.debug in `createFile` method of src/controllers/fileSystem.ts',
-//   )
-//   .then(console.log);
+projectAssistant
+  .ask(
+    'Add tests for `createFile` method of fileSystem controller class (read it). After that run the test, if you made a mistake, fix it',
+    // 'Add tests for `readFolder` method of fileSystem controller class.',
+    // 'Write test for `createFolder` method of fileSystem controller class (check it). After that run the test.',
+  )
+  .then(console.log);
 
 // const fileSystem = new FileSystem(projectPath);
-// console.log(fileSystem.getRootDirectoryName());
-// fileSystem.getGitDiff().then(console.log);
-
-// fileSystem.createFolder('src/test');
-// fileSystem.createFile('src/test/test.txt', 'test content');
-// fileSystem.rename('src/test_2', 'src/ai');
-// fileSystem.remove('src/test_2');
+// fileSystem.exec('yarn remove jest --silent').then(console.log).catch(console.error);
 
 // const gitController = new GitController(projectPath);
 // gitController.getGitDiff().then(console.log);
