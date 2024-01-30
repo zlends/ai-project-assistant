@@ -1,7 +1,6 @@
 import simpleGit from 'simple-git';
 
-// ToDo: move to controllers/git
-export class GitController {
+export class Git {
   public simpleGit;
 
   constructor(rootDirectory = './') {

@@ -1,8 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-// ToDo: move to controllers/fileSystem
-export class FileSystemController {
+export class FileSystem {
   public rootDirectory: string;
 
   constructor(rootDirectory = './') {

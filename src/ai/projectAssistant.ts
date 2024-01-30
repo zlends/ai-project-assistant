@@ -7,25 +7,24 @@ import {
 } from 'openai/resources';
 import { FunctionName } from './enums';
 import { generateSystemMessage, generateToolMessage, generateUserMessage } from './utils';
-import { FileSystemController } from '../fileSystemController';
 import { FunctionCallArguments } from './types';
-import { GitController } from '../gitController';
+import { FileSystem, Git } from '../controllers';
 
 export class ProjectAssistant {
   private openai: OpenAI = new OpenAI({
     apiKey: process.env['OPENAI_API_KEY'], // This is the default and can be omitted
   });
 
-  private fileSystemController: FileSystemController;
-  private gitController: GitController;
+  private fileSystemController: FileSystem;
+  private gitController: Git;
 
   private context: string[];
   private usedTokens = 0;
   private readonly messages: ChatCompletionMessageParam[];
 
   constructor(pathToProject: string) {
-    this.fileSystemController = new FileSystemController(pathToProject);
-    this.gitController = new GitController(pathToProject);
+    this.fileSystemController = new FileSystem(pathToProject);
+    this.gitController = new Git(pathToProject);
 
     this.context = [
       'You are Project Assistant. You have access to navigate over project files, search for a specific file, read it, make some changes, commit it.',
