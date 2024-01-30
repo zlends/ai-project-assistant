@@ -142,6 +142,22 @@ const remove: FunctionDefinition = {
   },
 };
 
+const exec: FunctionDefinition = {
+  name: FunctionName.exec,
+  description:
+    'Allows to run a command in terminal (for running scripts, installing packages etc). If you are installing some packages, use `--silent` flag to hide unnecessary output',
+  parameters: {
+    type: 'object',
+    properties: {
+      command: {
+        type: 'string',
+        description: 'Command to execute',
+      },
+    },
+    required: ['command'],
+  },
+};
+
 const getGitDiff: FunctionDefinition = {
   name: FunctionName.getGitDiff,
   description: 'Get git diff of the current folder',
@@ -172,6 +188,8 @@ const GPT_FUNCTION_DEFINITIONS: FunctionDefinition[] = [
 
   rename,
   remove,
+
+  exec,
 
   getGitDiff,
 

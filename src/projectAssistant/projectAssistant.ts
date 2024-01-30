@@ -138,6 +138,11 @@ export class ProjectAssistant {
           this.fileSystemController.remove(args.name);
           response = 'Successfully removed';
           break;
+        case FunctionName.exec:
+          args = this.getArgumentsObject<FunctionName.exec>(argumentsString);
+          await this.fileSystemController.exec(args.command);
+          response = `Executed command: ${args.command}`;
+          break;
         case FunctionName.getGitDiff:
           response = await this.gitController.getGitDiff();
           break;

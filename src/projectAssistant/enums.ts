@@ -9,6 +9,8 @@ export enum FunctionName {
   rename = 'rename',
   remove = 'remove',
 
+  exec = 'exec',
+
   getGitDiff = 'getGitDiff',
   print = 'print',
 }

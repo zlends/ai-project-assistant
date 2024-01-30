@@ -1,3 +1,4 @@
+import child_process from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { EChangeType } from '../projectAssistant/enums';
@@ -142,5 +143,23 @@ export class FileSystem {
     }
 
     fs.rmSync(fileOrFolderPath, { recursive: true, force: true });
+  }
+
+  public async exec(command: string) {
+    const { exec } = child_process;
+
+    return new Promise((resolve, reject) => {
+      exec(command, (error: any, stdout: any, stderr: any) => {
+        if (error) {
+          console.debug(`error: ${error.message}`);
+          reject(error.message);
+        } else if (stderr) {
+          console.debug(`stderr: ${stderr}`);
+          reject(stderr);
+        }
+        console.debug(`stdout: ${stdout}`);
+        resolve(stdout);
+      });
+    });
   }
 }

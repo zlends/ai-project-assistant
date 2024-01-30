@@ -32,6 +32,9 @@ export type FunctionCallArguments = Record<FunctionName, void> & {
   [FunctionName.print]: {
     message: string;
   };
+  [FunctionName.exec]: {
+    command: string;
+  };
 };
 
 export interface IChange {
