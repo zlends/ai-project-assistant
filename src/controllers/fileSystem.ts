@@ -92,7 +92,7 @@ export class FileSystem {
 
       switch (change.type) {
         case EChangeType.add:
-          fileContentRows.splice(startRow, 0, change.content!);
+          fileContentRows.splice(startRow + 1, 0, change.content!);
 
           // We need to increase delta, because we added new row
           delta += 1;
