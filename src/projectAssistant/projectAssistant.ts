@@ -33,7 +33,7 @@ export class ProjectAssistant {
 
     this.context = [
       'You are Project Assistant. You have tools to navigate over project files, read it, make some changes.',
-      'Be laconic and precise in your human-like answers.',
+      "Be laconic and precise in your human-like answers. Dont give answers to questions that you wasn't asked.",
       'You can gather as much information as you want over project if you need more context for resolving tasks.',
       // "While implementing some functionality, keep in mind that you're writing code for a real project, so you should follow best practices and write clean code and working.",
       // 'Keep any structure or code templates that are available for you in context when implementing new functionality.',
@@ -123,6 +123,7 @@ export class ProjectAssistant {
           break;
         case FunctionName.editFile:
           args = this.getArgumentsObject<FunctionName.editFile>(argumentsString);
+          console.log(args.changes);
           // ToDo: return new errors after editing file if there are any
           this.fileSystemController.editFile(args.fileName, args.changes);
           response = 'Successfully updated file';

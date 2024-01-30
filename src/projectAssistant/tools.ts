@@ -70,7 +70,10 @@ const createFile: FunctionDefinition = {
 const editFile: FunctionDefinition = {
   name: FunctionName.editFile,
   description:
-    'Edit file content. Note, new content will be inserted before this row for `add` type',
+    'Edit file content. Note, you are replacing whole lines. ' +
+    'If you want to add a line, it will be placed on the `startRow` place, all other rows will go down. ' +
+    'Be very precise with startRow and endRow. ' +
+    'If you are making few changes in one file – keep original row numbers.',
   parameters: {
     type: 'object',
     properties: {

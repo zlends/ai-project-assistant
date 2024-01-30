@@ -37,6 +37,6 @@ export type FunctionCallArguments = Record<FunctionName, void> & {
 export interface IChange {
   type: EChangeType;
   startRow: number; // rows are counted from 1
-  endRow: number; // rows are counted from 1
+  endRow?: number; // rows are counted from 1
   content?: string; // is not required for remove type
 }

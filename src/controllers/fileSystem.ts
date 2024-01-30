@@ -79,28 +79,44 @@ export class FileSystem {
     }
 
     const fileContent = fs.readFileSync(filePath, 'utf8');
-    const fileContentLines = fileContent.split('\n');
+    const fileContentRows = fileContent.split('\n');
+
+    // When we're making few changes in one file, we need to keep original row numbers,
+    // because bot is giving us original row numbers for next changes
+    let delta = 0;
 
     changes.forEach((change) => {
-      const startRow = change.startRow - 1;
-      const endRow = change.endRow - 1;
+      // Bot is giving rows from 1, but we are counting from 0, so we need to subtract 1
+      const startRow = change.startRow - 1 + delta;
+      const endRow = (change.endRow ?? change.startRow) - 1 + delta;
 
       switch (change.type) {
         case EChangeType.add:
-          fileContentLines.splice(startRow, 0, change.content!);
+          fileContentRows.splice(startRow, 0, change.content!);
+
+          // We need to increase delta, because we added new row
+          delta += 1;
+
           break;
         case EChangeType.remove:
-          fileContentLines.splice(startRow, 1 + endRow - startRow);
+          fileContentRows.splice(startRow, 1 + endRow - startRow);
+
+          // We need to decrease delta, because we removed some rows
+          delta -= 1 + endRow - startRow;
           break;
         case EChangeType.replace:
-          fileContentLines.splice(startRow, 1 + endRow - startRow, change.content!);
+          fileContentRows.splice(startRow, 1 + endRow - startRow, change.content!);
+
+          // We need to decrease delta, because we removed some rows, but replacing them with new one
+          delta -= endRow - startRow;
+
           break;
         default:
           throw new Error(`Unknown change type: ${change.type}`);
       }
     });
 
-    fs.writeFileSync(filePath, fileContentLines.join('\n'));
+    fs.writeFileSync(filePath, fileContentRows.join('\n'));
   }
 
   public rename(currentPath: string, newPath: string) {
