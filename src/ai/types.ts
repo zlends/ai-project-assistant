@@ -7,7 +7,7 @@ export type FunctionCallArguments = {
   [FunctionName.readFile]: {
     fileName: string;
   };
-  [FunctionName.updateFile]: {
+  [FunctionName.replaceFile]: {
     fileName: string;
     content: string;
   };

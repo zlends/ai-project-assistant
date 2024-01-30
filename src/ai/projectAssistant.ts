@@ -102,10 +102,10 @@ export class ProjectAssistant {
             this.getArgumentsObject<FunctionName.readFile>(argumentsString).fileName,
           );
           break;
-        case FunctionName.updateFile:
-          args = this.getArgumentsObject<FunctionName.updateFile>(argumentsString);
+        case FunctionName.replaceFile:
+          args = this.getArgumentsObject<FunctionName.replaceFile>(argumentsString);
           this.fileSystemController.updateFile(args.fileName, args.content);
-          response = 'Successfully updated file';
+          response = 'Successfully replaced file';
           break;
         case FunctionName.createFolder:
           args = this.getArgumentsObject<FunctionName.createFolder>(argumentsString);
