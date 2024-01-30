@@ -152,10 +152,10 @@ export class FileSystem {
       exec(command, (error: any, stdout: any, stderr: any) => {
         if (error) {
           console.debug(`error: ${error.message}`);
-          reject(error.message);
+          reject(error);
         } else if (stderr) {
           console.debug(`stderr: ${stderr}`);
-          reject(stderr);
+          reject(new Error(stderr));
         }
         console.debug(`stdout: ${stdout}`);
         resolve(stdout);

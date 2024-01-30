@@ -145,7 +145,9 @@ const remove: FunctionDefinition = {
 const exec: FunctionDefinition = {
   name: FunctionName.exec,
   description:
-    'Allows to run a command in terminal (for running scripts, installing packages etc). If you are installing some packages, use `--silent` flag to hide unnecessary output',
+    'Allows to run a command in terminal (for running scripts, installing packages etc). ' +
+    'Use project package manager if you are installing some libraries or running some scripts. ' +
+    'If you are installing some packages, use `--silent` flag to hide unnecessary output',
   parameters: {
     type: 'object',
     properties: {

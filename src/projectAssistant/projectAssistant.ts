@@ -154,7 +154,7 @@ export class ProjectAssistant {
           response = 'Unknown function';
       }
     } catch (error: any) {
-      response = error.message;
+      response = error.message || 'Unknown error';
       console.error('[handleFunctionCall][error]', error.message);
     }
 
