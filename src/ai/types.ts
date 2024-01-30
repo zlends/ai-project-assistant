@@ -8,11 +8,7 @@ export type FunctionCallArguments = Record<FunctionName, void> & {
     fileName: string;
     isWithRowNumbers?: boolean;
   };
-  [FunctionName.replaceFile]: {
-    fileName: string;
-    content: string;
-  };
-  [FunctionName.updateFile]: {
+  [FunctionName.editFile]: {
     fileName: string;
     changes: IChange[];
   };

@@ -31,9 +31,12 @@ export class ProjectAssistant {
     this.gitController = new Git(pathToProject);
 
     this.context = [
-      'You are Project Assistant. You have access to navigate over project files, search for a specific file, read it, make some changes, commit it.',
+      'You are Project Assistant. You have tools to navigate over project files, read it, make some changes.',
       'Be laconic and precise in your human-like answers.',
       'You can gather as much information as you want over project if you need more context for resolving tasks.',
+      // "While implementing some functionality, keep in mind that you're writing code for a real project, so you should follow best practices and write clean code and working.",
+      // 'Keep any structure or code templates that are available for you in context when implementing new functionality.',
+
       // ToDo: add this when discussion will be implemented
       // 'When you are asked to implement some functionality, you can discuss and confirm steps and solutions with the user.',
       `Root directory name: ${this.fileSystemController.getRootDirectoryName()}`,
@@ -107,13 +110,9 @@ export class ProjectAssistant {
             this.getArgumentsObject<FunctionName.readFile>(argumentsString).isWithRowNumbers,
           );
           break;
-        case FunctionName.replaceFile:
-          args = this.getArgumentsObject<FunctionName.replaceFile>(argumentsString);
-          this.fileSystemController.replaceFile(args.fileName, args.content);
-          response = 'Successfully replaced file';
-          break;
-        case FunctionName.updateFile:
-          args = this.getArgumentsObject<FunctionName.updateFile>(argumentsString);
+        case FunctionName.editFile:
+          args = this.getArgumentsObject<FunctionName.editFile>(argumentsString);
+          // ToDo: return new errors after editing file if there are any
           this.fileSystemController.updateFile(args.fileName, args.changes);
           response = 'Successfully updated file';
           break;

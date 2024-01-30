@@ -71,33 +71,16 @@ const readFile: FunctionDefinition = {
   },
 };
 
-const replaceFile: FunctionDefinition = {
-  name: FunctionName.replaceFile,
-  description: 'Replace file content',
-  parameters: {
-    type: 'object',
-    properties: {
-      fileName: {
-        type: 'string',
-        description: 'Name of the file to replace',
-      },
-      content: {
-        type: 'string',
-        description: 'New content of the file',
-      },
-    },
-  },
-};
-
 const updateFile: FunctionDefinition = {
-  name: FunctionName.updateFile,
-  description: 'Update file content',
+  name: FunctionName.editFile,
+  description:
+    'Edit file content. Note, new content will be inserted before this row for `add` type',
   parameters: {
     type: 'object',
     properties: {
       fileName: {
         type: 'string',
-        description: 'Name of the file to update',
+        description: 'Name of the file to edit',
       },
       changes: {
         type: 'array',
@@ -115,7 +98,7 @@ const updateFile: FunctionDefinition = {
             },
             endRow: {
               type: 'number',
-              description: 'End row of the change, will be equal to `startRow` for `add` type',
+              description: 'End row of the change',
             },
             content: {
               type: 'string',
@@ -183,7 +166,6 @@ const print: FunctionDefinition = {
 const GPT_FUNCTION_DEFINITIONS: FunctionDefinition[] = [
   readFolder,
   readFile,
-  replaceFile,
   updateFile,
   createFolder,
   createFile,

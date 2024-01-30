@@ -49,17 +49,6 @@ export class FileSystem {
     return fileContentWithRowNumbers.join('\n');
   }
 
-  // Replace file content
-  public replaceFile(fileName: string, content: string) {
-    const filePath = path.resolve(this.rootDirectory, fileName);
-
-    if (!fs.existsSync(filePath)) {
-      throw new Error(`File ${fileName} does not exist`);
-    }
-
-    fs.writeFileSync(filePath, content);
-  }
-
   // Update file content
   public updateFile(fileName: string, changes: IChange[]) {
     const filePath = path.resolve(this.rootDirectory, fileName);

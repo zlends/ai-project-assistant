@@ -24,7 +24,27 @@ projectAssistant
 // projectAssistant.ask('Remove `EChangeType` enum in src/ai/enums.ts').then(console.log);
 // projectAssistant.ask('Remove `createFile` method from fileSystem controller.').then(console.log);
 // projectAssistant
-//   .ask('Add error handling in `replaceFile` method of src/controllers/fileSystem.ts')
+//   .ask(
+//     'Add check for folder existence after `filePath` constant in `createFolder` method of src/controllers/fileSystem.ts',
+//   )
+//   .then(console.log);
+// projectAssistant
+//   .ask(
+//     // 'Add missing check for folder existence in src/controllers/fileSystem.ts',
+//     'Add check for folder existence in `createFolder` method of src/controllers/fileSystem.ts',
+//     // 'Add check for folder existence in `createFolder` method of src/controllers/fileSystem.ts',
+//     // 'Add console.debug before folderPath in `createFolder` method of src/controllers/fileSystem.ts',
+//     // 'Add console.debug just after folderPath in `createFolder` method of src/controllers/fileSystem.ts',
+//   )
+//   .then(console.log);
+
+// projectAssistant
+//   .ask('Add console.debug of filePath in `createFile` method of src/controllers/fileSystem.ts')
+//   .then(console.log);
+// projectAssistant
+//   .ask(
+//     'Remove console.debug in `createFile` method of src/controllers/fileSystem.ts',
+//   )
 //   .then(console.log);
 
 // const fileSystem = new FileSystem();

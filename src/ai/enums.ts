@@ -3,8 +3,7 @@ export enum FunctionName {
   readFile = 'readFile',
   createFolder = 'createFolder',
   createFile = 'createFile',
-  replaceFile = 'replaceFile',
-  updateFile = 'updateFile',
+  editFile = 'editFile',
   getGitDiff = 'getGitDiff',
   print = 'print',
 }
