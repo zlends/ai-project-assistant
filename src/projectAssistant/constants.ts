@@ -29,7 +29,7 @@ export const models = {
   },
 };
 
-export const model = models.gpt4_turbo;
+export const model = models.gpt4;
 
 export const TEMPERATURE = 0;
 export const SEED = 123;
