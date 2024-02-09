@@ -6,16 +6,17 @@ const app = express();
 const port = process.env.PORT || 5005;
 app.use(cors());
 
-const projectPath = './';
-const projectAssistant = new ProjectAssistant(projectPath);
+const defaultProjectPath = './';
 
 app.use(express.json());
 
 app.post('/ask', async (req, res) => {
-  const { query } = req.body;
+  const { query, project_path } = req.body;
   if (!query) {
     return res.status(400).json({ error: 'Query is required' });
   }
+
+  const projectAssistant = new ProjectAssistant(project_path || defaultProjectPath);
 
   try {
     const result = await projectAssistant.ask(query);
